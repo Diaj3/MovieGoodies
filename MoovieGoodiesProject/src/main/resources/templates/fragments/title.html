@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div style="margin-top: 70px;"></div>
+    <section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url('../../static/images/background4.jpg');" th:style="'background-image:url(' + @{/images/background4.jpg} + ');'">
+        <h2 class="l-text2 t-center" th:text="${title}"></h2>
+        <p class="m-text13 t-center" th:text="${title2}"></p>
+    </section>
+</body>
+</html>

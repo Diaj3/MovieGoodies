@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body class="animsition">
+
+	<!-- Header -->
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+	<!-- Title Page -->
+	<!--/*/ <th:block th:include="fragments/title :: body"></th:block> /*/-->
+
+	<!-- Content page -->
+	<section class="bgwhite p-t-55 p-b-65">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12 p-b-50">
+					<!-- Search -->
+					<div class="flex-sb-m flex-w p-b-35">
+						<div class="effect1 w-100">
+							<h3 class="m-text26 p-b-36 p-t-15">Search</h3>
+							<form class="bo4 of-hidden size15" th:action="@{|/shop/${type}|}" th:object="${productSearch}" method="post">
+								<input class="sizefull s-text7 p-l-22 p-r-22" type="text" placeholder="Ex: Star Wars" th:field="*{tag}">
+								<span class="effect1-line"></span>
+							</form>
+						</div>
+					</div>
+					<!-- Product -->
+					<div class="row">
+						<div th:each="product: ${products}" th:if="${((type=='all') or (type=='new' and product.getDate().equals(day)) or (type=='sale' and product.getPrice()<product.getOldPrice())) && product.getDisplay()}" class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+							<!-- Block2 -->
+							<div class="block2">
+								<div class="block2-img wrap-pic-w of-hidden pos-relative" th:classappend="${product.getDate().equals(day)} ? 'block2-labelnew'">
+									<img th:src="${product.getImage()}" alt="IMG-PRODUCT">
+									<div class="block2-overlay trans-0-4">
+										<div class="block2-btn-addcart w-size1 trans-0-4">
+											<!-- Button -->
+											<center>
+											<button class="btn btn-light">
+												<a th:href="@{|/item/${product.getProductId()}|}"  class="block2-name dis-block s-text3 p-b-5">Check details</a>
+											</button>
+											</center>
+										</div>
+									</div>
+								</div>
+								<div class="block2-txt p-t-20">
+									<a href="item.html" th:href="@{|/item/${product.getProductId()}|}" th:text="${product.getName()}" class="block2-name dis-block s-text3 p-b-5"></a>
+									<span th:if="${product.getPrice()<product.getOldPrice()}" th:text="'$'+${product.getOldPrice()}" class="block2-oldprice m-text7 p-r-5"></span>
+									<span th:text="'$'+${product.getPrice()}" class="block2-price p-r-5" th:classappend="${product.getPrice()<product.getOldPrice()} ? 'm-text8' : 'm-text6'"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer and Back to top -->
+	<!--/*/ <th:block th:include="fragments/footer :: body"></th:block> /*/-->
+
+	<!-- Scripts -->
+	<!--/*/ <th:block th:include="fragments/script :: body"></th:block> /*/-->
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <!-- Title Page -->
+    <!--/*/ <th:block th:include="fragments/title :: body"></th:block> /*/-->
+
+    <!-- Content page -->
+    <section class="cart bgwhite p-t-70 p-b-100">
+        <div class="container">
+            <ul class="nav w-100">
+                <li class="active w-25 text-center"><a data-toggle="tab" href="#menu1"><h2>User Info</h2></a></li>
+                <li class="w-50 text-center"><a data-toggle="tab" href="#menu2"><h2>Pending Orders</h2></a></li>
+                <li class="w-25 text-center"><a data-toggle="tab" href="#menu3"><h2>Purchase History</h2></a></li>
+            </ul>
+            <div class="tab-content" style="margin-top: 50px;">
+                <div class="tab-pane fade show active" id="menu1">
+                    <div id="container_info">
+                        <div class="col-md-6 col-lg-12 p-b-30">
+                            <form class="leave-comment" th:object="${customer}" th:action="@{/user/profile}" method="post">
+                                <h5 style="margin-bottom: 10px;">First Name</h5>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="text" th:field="*{firstName}" th:value="${customer.getFirstName()}">
+                                </div>
+
+                                <h5 style="margin-bottom: 10px;">Last Name</h5>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="text" th:field="*{lastName}" th:value="${customer.getLastName()}">
+                                </div>
+
+                                <h5 style="margin-bottom: 10px;">Email</h5>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="email" th:field="*{email}" th:value="${customer.getEmail()}">
+                                </div>
+
+                                <h5 style="margin-bottom: 10px;">Contact</h5>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="number" th:field="*{contact}" th:value="${customer.getContact()}">
+                                </div>
+
+                                <h5 style="margin-bottom: 10px;">Address</h5>
+                                <div class="bo4 of-hidden size15 m-b-20">
+                                    <input class="sizefull s-text7 p-l-22 p-r-22" type="text" th:field="*{address}" th:value="${customer.getAddress()}">
+                                </div>
+                                <div class="w-size25">
+                                    <!-- Button -->
+                                    <input type="submit" value="Update" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="menu2">
+                    <div id="container_pending" class="container-table-cart pos-relative">
+                        <div class="wrap-table-shopping-cart bgwhite">
+                            <table class="table-shopping-cart">
+                                <tr class="table-head">
+                                    <th class="column-1"></th>
+                                    <th class="column-2">Product</th>
+                                    <th class="column-3">Price</th>
+                                    <th class="column-3">Quantity</th>
+                                    <th class="column-3">Date</th>
+                                    <th class="column-5">Total</th>
+                                </tr>
+                                <div th:each="sale : ${customer.getSales()}" th:if="${!sale.getDeliver()}">
+                                <tr class="table-row">
+                                    <td class="table-dark" colspan="6"></td>
+                                </tr>
+                                <tr class="table-row" th:each="product : ${sale.getProductsSale()}">
+                                    <td class="column-1">
+                                        <div class="cart-img-product b-rad-4 o-f-hidden">
+                                            <img th:src="${product.getProduct().getImage()}" alt="IMG-PRODUCT">
+                                        </div>
+                                    </td>
+                                    <td class="column-2">
+                                        <a href="item.html" th:href="@{|/item/${product.getProduct().getProductId()}|}" th:text="${product.getProduct().getName()}" class="size8 m-text18 t-center"></a>
+                                    </td>
+                                    <td class="column-3" th:text="'$'+${product.getPrice()}"></td>
+                                    <td class="column-3" th:text="${product.getQuantity()}"></td>
+                                    <td class="column-3" th:text="${sale.getSaleAt()}"></td>
+                                    <td class="column-5" th:text="'$'+${product.getPrice() * product.getQuantity()}"></td>
+                                </tr>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="menu3">
+                    <div id="container_purchase" class="container-table-cart pos-relative">
+                        <div class="wrap-table-shopping-cart bgwhite">
+                            <table class="table-shopping-cart">
+                                <tr class="table-head">
+                                    <th class="column-1"></th>
+                                    <th class="column-2">Product</th>
+                                    <th class="column-3">Price</th>
+                                    <th class="column-3">Quantity</th>
+                                    <th class="column-3">Date</th>
+                                    <th class="column-5">Total</th>
+                                </tr>
+                                <div th:each="sale : ${customer.getSales()}" th:if="${sale.getDeliver()}">
+                                    <tr class="table-row">
+                                        <td class="table-dark" colspan="6"></td>
+                                    </tr>
+                                    <tr class="table-row" th:each="product : ${sale.getProductsSale()}">
+                                        <td class="column-1">
+                                            <div class="cart-img-product b-rad-4 o-f-hidden">
+                                                <img th:src="${product.getProduct().getImage()}" alt="IMG-PRODUCT">
+                                            </div>
+                                        </td>
+                                        <td class="column-2">
+                                            <a href="item.html" th:href="@{|/item/${product.getProduct().getProductId()}|}" th:text="${product.getProduct().getName()}" class="size8 m-text18 t-center"></a>
+                                        </td>
+                                        <td class="column-3" th:text="'$'+${product.getPrice()}"></td>
+                                        <td class="column-3" th:text="${product.getQuantity()}"></td>
+                                        <td class="column-3" th:text="${sale.getSaleAt()}"></td>
+                                        <td class="column-5" th:text="'$'+${product.getPrice() * product.getQuantity()}"></td>
+                                    </tr>
+                                </div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer and Back to top -->
+    <!--/*/ <th:block th:include="fragments/footer :: body"></th:block> /*/-->
+
+    <!-- Scripts -->
+    <!--/*/ <th:block th:include="fragments/script :: body"></th:block> /*/-->
+
+</body>
+</html>

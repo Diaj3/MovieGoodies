@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header class="header1">
+    <!-- Header desktop -->
+    <div class="container-menu-header">
+        <div class="wrap_header">
+            <!-- Logo -->
+            <a href="../index.html" th:href="@{/}" class="logo">
+                <img src="images/icons/movie_logo_big.png" th:src="@{/images/icons/movie_logo_big.png}" alt="IMG-LOGO">
+            </a>
+
+            <!-- Menu -->
+            <div class="wrap_menu">
+                <nav class="menu">
+                    <ul class="main_menu">
+                        <li>
+                            <a href="../shop.html" th:href="@{/shop/new}">New</a>
+                        </li>
+                        <li>
+                            <a href="../shop.html" th:href="@{/shop/all}">Shop</a>
+                        </li>
+                        <li class="sale-noti">
+                            <a href="../shop.html" th:href="@{/shop/sale}">Sale</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Header Icon -->
+            <div class="header-icons">
+                <a href="../profile.html" th:href="@{/user/profile}" class="header-wrapicon1 dis-block">
+                    <img src="images/icons/icon-header-01.png" th:src="@{/images/icons/icon-header-01.png}" class="header-icon1" alt="ICON">
+                </a>
+                <span class="linedivide1"></span>
+                <div class="header-wrapicon2">
+                    <div th:if="${cart != null && #lists.size(cart.getProductsCart())>0}">
+                        <img src="images/icons/icon-header-02.png" th:src="@{/images/icons/icon-header-02.png}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                        <span class="header-icons-noti" th:text="${#aggregates.sum(cart.getProductsCart().![getQuantity()])}"></span>
+                        <!-- Header cart noti -->
+                        <div class="header-cart header-dropdown">
+                            <ul class="header-cart-wrapitem">
+                                <li th:each="productCart: ${cart.getProductsCart()}" class="header-cart-item">
+                                    <div class="header-cart-item-img">
+                                        <img th:src="${productCart.getProduct().getImage()}" alt="IMG">
+                                    </div>
+                                    <div class="header-cart-item-txt">
+                                        <a href="../item.html" th:href="@{|/item/${productCart.getProduct().getProductId()}|}" th:text="${productCart.getProduct().getName()}" class="header-cart-item-name"></a>
+                                        <span class="header-cart-item-info" th:text="${productCart.getQuantity()}+' x $'+${productCart.getProduct().getPrice()}"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="header-cart-total" th:text="'Total: $'+${#aggregates.sum(cart.getProductsCart().![getProduct().getPrice() * getQuantity()])}"></div>
+                            <div class="header-cart-buttons">
+                                <div class="header-cart-wrapbtn">
+                                    <!-- Button -->
+                                    <a href="../cart.html" th:href="@{/user/cart}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                        View Cart
+                                    </a>
+                                </div>
+                                <div class="header-cart-wrapbtn">
+                                    <!-- Button -->
+                                    <a href="../checkout.html" th:href="@{/user/checkout}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                        Check Out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${cart == null || #lists.size(cart.getProductsCart())==0}">
+                        <a href="../cart.html" th:href="@{/user/cart}" class="header-wrapicon1 dis-block">
+                            <img src="images/icons/icon-header-02.png" th:src="@{/images/icons/icon-header-02.png}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                        </a>
+                    </div>
+                </div>
+                <span class="linedivide1"></span>
+                <a th:if="${cart != null}" href="../login.html" th:href="@{/user/logout}" class="header-wrapicon1 dis-block">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Mobile -->
+    <div class="wrap_header_mobile">
+        <!-- Logo moblie -->
+        <a href="../index.html" th:href="@{/}" class="logo-mobile">
+            <img src="images/icons/logo.png" th:src="@{/images/icons/logo.png}" alt="IMG-LOGO">
+        </a>
+
+        <!-- Button show menu -->
+        <div class="btn-show-menu">
+            <!-- Header Icon mobile -->
+            <div class="header-icons-mobile">
+                <a href="../profile.html" th:href="@{/user/profile}" class="header-wrapicon1 dis-block">
+                    <img src="images/icons/icon-header-01.png" th:src="@{/images/icons/icon-header-01.png}" class="header-icon1" alt="ICON">
+                </a>
+                <span class="linedivide2"></span>
+                <div class="header-wrapicon2">
+                    <div th:if="${cart != null && #lists.size(cart.getProductsCart())>0}">
+                        <img src="images/icons/icon-header-02.png" th:src="@{/images/icons/icon-header-02.png}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                        <span class="header-icons-noti" th:text="${#aggregates.sum(cart.getProductsCart().![getQuantity()])}"></span>
+                        <!-- Header cart noti -->
+                        <div class="header-cart header-dropdown">
+                            <ul class="header-cart-wrapitem">
+                                <li th:each="productCart: ${cart.getProductsCart()}" class="header-cart-item">
+                                    <div class="header-cart-item-img">
+                                        <img th:src="${productCart.getProduct().getImage()}" alt="IMG">
+                                    </div>
+                                    <div class="header-cart-item-txt">
+                                        <a href="../item.html" th:href="@{|/item/${productCart.getProduct().getProductId()}|}" th:text="${productCart.getProduct().getName()}" class="header-cart-item-name"></a>
+                                        <span th:text="${productCart.getQuantity()}+' x $'+${productCart.getProduct().getPrice()}" class="header-cart-item-info"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="header-cart-total" th:text="'Total: $'+${#aggregates.sum(cart.getProductsCart().![getProduct().getPrice() * getQuantity()])}"></div>
+                            <div class="header-cart-buttons">
+                                <div class="header-cart-wrapbtn">
+                                    <!-- Button -->
+                                    <a href="../cart.html" th:href="@{/user/cart}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                        View Cart
+                                    </a>
+                                </div>
+                                <div class="header-cart-wrapbtn">
+                                    <!-- Button -->
+                                    <a href="checkout.html" th:href="@{/user/checkout}" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                        Check Out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${cart == null || #lists.size(cart.getProductsCart())==0}">
+                        <a href="../cart.html" th:href="@{/user/cart}" class="header-wrapicon1 dis-block">
+                            <img src="images/icons/icon-header-02.png" th:src="@{/images/icons/icon-header-02.png}" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                        </a>
+                    </div>
+                </div>
+                <span class="linedivide1"></span>
+                <a th:if="${cart != null}" href="../login.html" th:href="@{/user/logout}" class="header-wrapicon1 dis-block">LOGOUT</a>
+            </div>
+            <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div class="wrap-side-menu" >
+        <nav class="side-menu">
+            <ul class="main-menu">
+                <li>
+                    <a href="../shop.html" th:href="@{/shop/new}">New</a>
+                </li>
+                <li class="item-menu-mobile">
+                    <a href="../shop.html" th:href="@{/shop/all}">Shop</a>
+                </li>
+                <li class="item-menu-mobile">
+                    <a href="../shop.html" th:href="@{/shop/sale}">Sale</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+</html>

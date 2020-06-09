@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <!--/*/ <th:block th:include="fragments/header_provider :: header"></th:block> /*/-->
+
+    <!-- Title Page -->
+    <!--/*/ <th:block th:include="fragments/title :: body"></th:block> /*/-->
+
+    <!-- Product Detail -->
+    <div class="container bgwhite p-t-35 p-b-80">
+        <div class="wrap-table-shopping-cart bgwhite">
+            <table class="table-shopping-cart">
+                <tr class="table-head">
+                    <th class="column-1"></th>
+                    <th class="column-2">Product</th>
+                    <th class="column-3">Price</th>
+                    <th class="column-3">Quantity</th>
+                    <th class="column-3">Available</th>
+                </tr>
+                <tr class="table-row" th:each="product : ${products}">
+                    <td class="column-1">
+                        <div class="cart-img-product b-rad-4 o-f-hidden">
+                            <img th:src="${product.getImage()}" alt="IMG-PRODUCT">
+                        </div>
+                    </td>
+                    <td class="column-2">
+                        <a href="item.html" th:href="@{|/provider/item/${product.getProductId()}|}" th:text="${product.getName()}" class="size8 m-text18 t-center"></a>
+                    </td>
+                    <td class="column-3" th:text="'$'+${product.getPrice()}"></td>
+                    <td class="column-3" th:text="${product.getQuantity()}"></td>
+                    <td class="column-3" th:text="${product.getDisplay()}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer and Back to top -->
+    <!--/*/ <th:block th:include="fragments/footer :: body"></th:block> /*/-->
+
+    <!-- Scripts -->
+    <!--/*/ <th:block th:include="fragments/script :: body"></th:block> /*/-->
+    <!--===============================================================================================-->
+    <script type="text/javascript">
+        $('.block2-btn-addcart').each(function(){
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function(){
+                swal(nameProduct, "is added to cart !", "success");
+            });
+        });
+
+        $('.block2-btn-addwishlist').each(function(){
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function(){
+                swal(nameProduct, "is added to wishlist !", "success");
+            });
+        });
+
+        $('.btn-addcart-product-detail').each(function(){
+            var nameProduct = $('.product-detail-name').html();
+            $(this).on('click', function(){
+                swal(nameProduct, "is added to wishlist !", "success");
+            });
+        });
+    </script>
+
+</body>
+</html>

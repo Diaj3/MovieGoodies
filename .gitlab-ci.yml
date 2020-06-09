@@ -1,0 +1,47 @@
+image: java:8
+
+stages:
+   - build
+   - test
+   - deploy
+
+before_script:
+  - cd MoovieGoodiesProject
+  - chmod +x mvnw
+
+build:
+  stage: build
+  script: ./mvnw package
+  artifacts:
+    paths:
+      - MoovieGoodiesProject/target/movie_goodies-0.0.1.jar
+
+test:
+  stage: test
+  script: ./mvnw test
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  stage: test
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+deploy:
+  type: deploy
+  environment:
+    name: staging
+    url: 192.168.160.67
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H '192.168.160.67' >> ~/.ssh/known_hosts
+  script:
+    - ssh tqs@192.168.160.67 "cd tqs_project && git checkout master && git pull origin master && exit"
+  only:
+    - master

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <!-- Title Page -->
+    <!--/*/ <th:block th:include="fragments/title :: body"></th:block> /*/-->
+
+    <!-- Content page -->
+    <section class="cart bgwhite p-t-70 p-b-100">
+        <div class="container">
+            <!-- Cart item -->
+            <h2 style="margin-bottom: 15px;">Shipping Info</h2>
+            <div class="tab-pane fade show active" id="menu1">
+                <div id="container_info">
+                    <div class="col-md-6 col-lg-12 p-b-30">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td th:text="${customer.getFirstName()}"></td>
+                                    <td th:text="${customer.getLastName()}"></td>
+                                    <td th:text="${customer.getEmail()}"></td>
+                                    <td th:text="${customer.getContact()}"></td>
+                                    <td th:text="${customer.getAddress()}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <form class="leave-comment" th:object="${form}" th:action="@{/user/checkout}" method="post">
+                            <h5 style="margin-bottom: 10px;">Payment Method</h5>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect01"></label>
+                                    </div>
+                                    <select class="custom-select bo4 of-hidden size15 m-b-20" id="inputGroupSelect01" th:field="*{paymentMethod}">
+                                        <option value="Paypal" selected>Paypal</option>
+                                        <option value="MBway">MBway</option>
+                                        <option value="Debit Card">Debit Card</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                    </select>
+                                </div>
+                            <div class="p-2" style="border-style: solid; border-width: thick; border-color: #f2800d; margin-top: 20px; margin-bottom: 20px;"
+                                 th:text="'Total: $'+${#aggregates.sum(cart.getProductsCart().![getProduct().getPrice() * getQuantity()])+4.99}"></div>
+                            <div class="w-size25">
+                                <!-- Button -->
+                                <input type="submit" value="Pay now" class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer and Back to top -->
+    <!--/*/ <th:block th:include="fragments/footer :: body"></th:block> /*/-->
+
+    <!-- Scripts -->
+    <!--/*/ <th:block th:include="fragments/script :: body"></th:block> /*/-->
+
+</body>
+</html>
